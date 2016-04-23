@@ -29,8 +29,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+
         <activity
-            android:name=".MapsActivity"
+            android:name=".IntroActivity"
             android:label="@string/title_activity_maps"
             android:screenOrientation="sensorPortrait">
             <intent-filter>
@@ -38,6 +39,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".MapsActivity"
+            android:screenOrientation="sensorPortrait">
         </activity>
     </application>
 
