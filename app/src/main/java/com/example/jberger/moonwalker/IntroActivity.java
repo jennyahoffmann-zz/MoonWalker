@@ -18,20 +18,32 @@ import org.ligi.axt.AXT;
  * Created by jberger on 23/04/16.
  */
 public class IntroActivity extends AppCompatActivity {
+
+    private Vibrator vibrator;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
+        final Handler handler = new Handler();
+
+        final Runnable vibratorRunnable = new Runnable() {
+            @Override
+            public void run() {
+                vibrator.vibrate(3500);
+            }
+        };
 
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AXT.at(IntroActivity.this).startCommonIntent().activityFromClass(MapsActivity.class);
+                vibrator.vibrate(1);
+                handler.removeCallbacks(vibratorRunnable);
             }
         });
 
         final TextView textView = (TextView) findViewById(R.id.introText);
-        Handler handler = new Handler();
 
         textView.setVisibility(View.GONE);
         handler.postDelayed(new Runnable() {
@@ -62,13 +74,9 @@ public class IntroActivity extends AppCompatActivity {
         videoView.setVideoURI(uri);
         videoView.start();
 
-        final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                vibrator.vibrate(3500);
-            }
-        }, 8000);
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        handler.postDelayed(vibratorRunnable, 8000);
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
