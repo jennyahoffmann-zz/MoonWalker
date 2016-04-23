@@ -8,5 +8,5 @@ Every Apollo mission correlates to one level. The player has to get to point of 
 commpete in the google leadership. These missions are related to real special events from the Apollo missions.
 
 The goal of the game is to teach people about space and Apollo missions without having the impression of getting teached. The player gets feeling for
-distances walked and driven by the rovers and will also experince the difficulties and successes from the mission. The goal is to give people more
-knowledge about the space and bring back the feeling of first rocket missions. It is planned to expand the app for other planets like mars.
+distances walked and driven by the rovers and will also experience the difficulties and successes from the mission. The goal is to expand people's
+knowledge about the space and bring back the enthusiasm for space travel. It is planned to expand the app for other planets like mars.
