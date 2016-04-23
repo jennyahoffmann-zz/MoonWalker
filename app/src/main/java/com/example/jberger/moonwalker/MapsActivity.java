@@ -10,6 +10,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -37,11 +40,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         // Add a marker in Sydney and move the camera
         LatLng sydney = App.locationProvider.getLatLng();
+        List<POI> Apollo11MissionLocation = App.poiProvider.getLatLng();
         mMap.addMarker(new MarkerOptions().position(sydney).title("Landing Zone"));
+        for (POI latLng : Apollo11MissionLocation) {
+            mMap.addMarker(new MarkerOptions().position(latLng.coordinate).title(latLng.name));
+        }
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(12));
     }
 }
