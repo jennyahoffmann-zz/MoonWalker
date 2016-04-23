@@ -19,6 +19,15 @@ public class FakeAreaProvider implements GameAreaProvider {
         return latLngs;
     }
 
+    public ArrayList<LatLng> getExtend(int num) {
+        ArrayList<LatLng> latLngs = new ArrayList<>();
+        //latLngs.add(new LatLng(52.5115203,13.4141805));
+        latLngs.add(new LatLng(52.4926885, 13.3673734));
+        //latLngs.add(new LatLng(52.5153384,13.4263374));
+        latLngs.add(new LatLng(52.5253384, 13.4363374));
+        return latLngs;
+    }
+
     @Override
     public Area getArea(int num) {
         return new Area(getPois(), R.drawable.moon_surface);

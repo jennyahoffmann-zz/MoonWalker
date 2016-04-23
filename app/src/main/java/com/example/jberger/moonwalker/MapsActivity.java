@@ -53,6 +53,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         final LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        final LatLngBounds.Builder cameraBuilder = new LatLngBounds.Builder();
 
         LatLng home = App.locationProvider.getLatLng();
         Area area = App.poiProvider.getArea(0);
@@ -68,12 +69,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (POI latLng : Apollo11MissionLocation) {
             MarkerOptions poiMarker = new MarkerOptions().position(latLng.coordinate).title(latLng.name);
             mMap.addMarker(poiMarker);
-            builder.include(latLng.coordinate);
+            cameraBuilder.include(latLng.coordinate);
         }
 
+        for (LatLng latLng : App.poiProvider.getExtend(2)) {
+            builder.include(latLng);
+        }
         final LatLngBounds bounds = builder.build();
         groundOverlayOptions.positionFromBounds(bounds);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
         mMap.addGroundOverlay(groundOverlayOptions);
 
         new Handler().postDelayed(new Runnable() {
@@ -97,7 +100,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         return true;
                     }
                 });
-                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, Math.round(dimension)));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(cameraBuilder.build(), Math.round(dimension)));
             }
         }, 200);
 
