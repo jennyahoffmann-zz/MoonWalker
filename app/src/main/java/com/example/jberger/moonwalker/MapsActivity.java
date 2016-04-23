@@ -1,18 +1,19 @@
 package com.example.jberger.moonwalker;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -43,21 +44,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         final LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        // Add a marker in Sydney and move the camera
+
         LatLng home = App.locationProvider.getLatLng();
-        List<POI> Apollo11MissionLocation = App.poiProvider.getLatLng();
+        Area area = App.poiProvider.getArea(0);
+        List<POI> Apollo11MissionLocation = area.getLatLng;
+
+        GroundOverlayOptions groundOverlayOptions = new GroundOverlayOptions();
+        GroundOverlayOptions newarkMap = groundOverlayOptions;
+        groundOverlayOptions.image(BitmapDescriptorFactory.fromResource(area.image));
+
         mMap.addMarker(new MarkerOptions().position(home).title("Landing Zone"));
         builder.include(home);
         for (POI latLng : Apollo11MissionLocation) {
             mMap.addMarker(new MarkerOptions().position(latLng.coordinate).title(latLng.name));
             builder.include(latLng.coordinate);
         }
+
+        final LatLngBounds bounds = builder.build();
+        groundOverlayOptions.positionFromBounds(bounds);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
+        mMap.addGroundOverlay(groundOverlayOptions);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 float dimension = getResources().getDimension(R.dimen.mapPadding);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), Math.round(dimension)));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, Math.round(dimension)));
             }
         }, 200);
 

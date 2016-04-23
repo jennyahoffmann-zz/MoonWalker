@@ -8,12 +8,12 @@ import android.app.Application;
 public class App extends Application {
 
     public static GameLocationProvider locationProvider;
-    public static GamePOIProvider poiProvider;
+    public static GameAreaProvider poiProvider;
 
     @Override
     public void onCreate() {
         super.onCreate();
         locationProvider = new FakeGameLocationProvider();
-        poiProvider = new FakePOIProvider();
+        poiProvider = new FakeAreaProvider();
     }
 }
