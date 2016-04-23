@@ -17,3 +17,5 @@ knowledge about the space and bring back the enthusiasm for space travel. It is 
 ### credits
 
 picture of astronaut source: http://www.clipartlord.com/2012/12/05/free-cartoon-astronaut-clip-art/
+
+picture of rocket source: http://www.clipartbest.com/clipart-abTyzjXiL
