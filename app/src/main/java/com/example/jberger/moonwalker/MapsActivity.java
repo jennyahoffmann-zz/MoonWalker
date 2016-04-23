@@ -1,13 +1,17 @@
 package com.example.jberger.moonwalker;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -51,10 +55,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         GroundOverlayOptions groundOverlayOptions = new GroundOverlayOptions();
         GroundOverlayOptions newarkMap = groundOverlayOptions;
-        groundOverlayOptions.image(BitmapDescriptorFactory.fromResource(area.image));
+        groundOverlayOptions.image(getScaleAstronautImage(area.image));
         groundOverlayOptions.transparency(0.5f);
 
-        mMap.addMarker(new MarkerOptions().position(home).title("Landing Zone"));
+        MarkerOptions astronautMarker = new MarkerOptions().position(home).title("Landing Zone");
+        astronautMarker.icon(getScaleAstronautImage(R.drawable.astronaut));
+        mMap.addMarker(astronautMarker);
         builder.include(home);
         for (POI latLng : Apollo11MissionLocation) {
             mMap.addMarker(new MarkerOptions().position(latLng.coordinate).title(latLng.name));
@@ -74,5 +80,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }, 200);
 
+    }
+
+    @NonNull
+    private BitmapDescriptor getScaleAstronautImage(int astronaut) {
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), astronaut);
+        return BitmapDescriptorFactory.fromBitmap(Bitmap.createScaledBitmap(bitmap, 100, 100, true));
     }
 }
