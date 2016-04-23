@@ -1,5 +1,6 @@
 package com.example.jberger.moonwalker;
 
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -8,6 +9,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -40,14 +42,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        final LatLngBounds.Builder builder = new LatLngBounds.Builder();
         // Add a marker in Sydney and move the camera
-        LatLng sydney = App.locationProvider.getLatLng();
+        LatLng home = App.locationProvider.getLatLng();
         List<POI> Apollo11MissionLocation = App.poiProvider.getLatLng();
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Landing Zone"));
+        mMap.addMarker(new MarkerOptions().position(home).title("Landing Zone"));
+        builder.include(home);
         for (POI latLng : Apollo11MissionLocation) {
             mMap.addMarker(new MarkerOptions().position(latLng.coordinate).title(latLng.name));
+            builder.include(latLng.coordinate);
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(12));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 200));
+            }
+        }, 200);
+
     }
 }
