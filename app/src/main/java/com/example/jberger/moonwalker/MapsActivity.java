@@ -62,8 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         final LatLngBounds bounds = builder.build();
-        groundOverlayOptions.
-                positionFromBounds(bounds);
+        groundOverlayOptions.positionFromBounds(bounds);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
         mMap.addGroundOverlay(groundOverlayOptions);
 
