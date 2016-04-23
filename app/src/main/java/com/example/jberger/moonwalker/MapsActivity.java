@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
@@ -23,6 +24,8 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private MarkerOptions astronautMarker;
+    private Marker realAstronautMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +61,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         groundOverlayOptions.image(getScaleAstronautImage(area.image));
         groundOverlayOptions.transparency(0.5f);
 
-        MarkerOptions astronautMarker = new MarkerOptions().position(home).title("Landing Zone");
-        astronautMarker.icon(getScaleAstronautImage(R.drawable.astronaut));
-        mMap.addMarker(astronautMarker);
+        setAstronautMarker(home);
         builder.include(home);
         for (POI latLng : Apollo11MissionLocation) {
-            mMap.addMarker(new MarkerOptions().position(latLng.coordinate).title(latLng.name));
+            MarkerOptions poiMarker = new MarkerOptions().position(latLng.coordinate).title(latLng.name);
+            mMap.addMarker(poiMarker);
             builder.include(latLng.coordinate);
         }
 
@@ -76,10 +78,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void run() {
                 float dimension = getResources().getDimension(R.dimen.mapPadding);
+                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        realAstronautMarker.remove();
+                        setAstronautMarker(marker.getPosition());
+                        return true;
+                    }
+                });
                 mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, Math.round(dimension)));
             }
         }, 200);
 
+    }
+
+    private void setAstronautMarker(LatLng home) {
+        astronautMarker = new MarkerOptions().position(home).title("Landing Zone");
+        astronautMarker.icon(getScaleAstronautImage(R.drawable.astronaut));
+        realAstronautMarker = mMap.addMarker(astronautMarker);
     }
 
     @NonNull
