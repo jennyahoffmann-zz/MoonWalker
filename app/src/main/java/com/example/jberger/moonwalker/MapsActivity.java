@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,6 +27,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private MarkerOptions astronautMarker;
     private Marker realAstronautMarker;
+    private int countMarker = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     public boolean onMarkerClick(Marker marker) {
                         realAstronautMarker.remove();
                         setAstronautMarker(marker.getPosition());
+                        countMarker++;
+                        if (countMarker == 1) {
+                            new AlertDialog.Builder(MapsActivity.this).setMessage("mission 50% completed")
+                                    .setTitle("Congratulations").setIcon(R.drawable.mission_batch_apollo_11)
+                                    .setPositiveButton(android.R.string.ok, null).show();
+                        }
+                        if (countMarker == 2) {
+
+                        }
                         return true;
                     }
                 });
