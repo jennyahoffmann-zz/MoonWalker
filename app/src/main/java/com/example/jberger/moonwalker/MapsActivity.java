@@ -56,7 +56,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 200));
+                float dimension = getResources().getDimension(R.dimen.mapPadding);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), Math.round(dimension)));
             }
         }, 200);
 
