@@ -21,6 +21,6 @@ public class FakeAreaProvider implements GameAreaProvider {
 
     @Override
     public Area getArea(int num) {
-        return new Area(getPois(), R.drawable.apollo11);
+        return new Area(getPois(), R.drawable.moon_surface);
     }
 }
