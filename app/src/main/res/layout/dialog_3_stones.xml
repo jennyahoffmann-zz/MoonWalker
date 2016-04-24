@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="com.example.jberger.moonwalker.MapsActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/stones"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:context="com.example.jberger.moonwalker.MapsActivity">
+
+        <ImageView
+            android:id="@+id/marble"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="16dp"
+            android:src="@drawable/marble"
+            android:clickable="true" />
+
+        <ImageView
+            android:id="@+id/chalkstone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="16dp"
+            android:src="@drawable/chalkstone"
+            android:clickable="true" />
+
+        <ImageView
+            android:id="@+id/moon_rock"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="16dp"
+            android:src="@drawable/moon_rock"
+            android:clickable="true" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF0000"
+        android:layout_gravity="center"
+        tools:text="gtfmjgtjhg j jhz6h j6zjzhljz 6l hilzi inz6ni z"
+        android:id="@+id/error_message_3_stone"
+        android:layout_marginBottom="36dp" />
+</LinearLayout>

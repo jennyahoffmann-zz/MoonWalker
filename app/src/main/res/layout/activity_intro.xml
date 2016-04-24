@@ -34,8 +34,8 @@
         android:text="become an astronaut"
         android:textSize="48sp"
         android:layout_gravity="center"
-        android:textColor="@android:color/black"
-        android:shadowColor="@android:color/white"
+        android:textColor="@android:color/white"
+        android:shadowColor="@android:color/black"
         android:shadowRadius="20"
         android:id="@+id/introText" />
 </FrameLayout>

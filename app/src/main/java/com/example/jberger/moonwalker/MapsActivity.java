@@ -7,6 +7,9 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,6 +31,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private MarkerOptions astronautMarker;
     private Marker realAstronautMarker;
     private int countMarker = 0;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +66,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GroundOverlayOptions groundOverlayOptions = new GroundOverlayOptions();
         GroundOverlayOptions newarkMap = groundOverlayOptions;
         groundOverlayOptions.image(getScaleAstronautImage(area.image));
-        groundOverlayOptions.transparency(0.5f);
+        groundOverlayOptions.transparency(0.3f);
 
         setAstronautMarker(home);
         builder.include(home);
@@ -90,12 +94,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         setAstronautMarker(marker.getPosition());
                         countMarker++;
                         if (countMarker == 1) {
-                            new AlertDialog.Builder(MapsActivity.this).setMessage("mission 50% completed")
-                                    .setTitle("Congratulations").setIcon(R.drawable.mission_batch_apollo_11)
-                                    .setPositiveButton(android.R.string.ok, null).show();
+                            final View inflate = LayoutInflater.from(MapsActivity.this).inflate(R.layout.dialog_3_stones, null, false);
+                            final TextView errorView = (TextView) inflate.findViewById(R.id.error_message_3_stone);
+                            inflate.findViewById(R.id.marble).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    errorView.setText("Nope. This is marble. Try again.");
+                                }
+                            });
+                            inflate.findViewById(R.id.chalkstone).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    errorView.setText("Nene. This is chalkstone. Try again.");
+                                }
+                            });
+                            inflate.findViewById(R.id.moon_rock).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    alertDialog.dismiss();
+                                    new AlertDialog.Builder(MapsActivity.this).setMessage("mission 50% completed")
+                                            .setTitle("Congratulations").setIcon(R.drawable.mission_batch_apollo_11)
+                                            .setPositiveButton(android.R.string.ok, null).show();
+                                }
+                            });
+                            alertDialog = new AlertDialog.Builder(MapsActivity.this).setView(inflate).setCancelable(false)
+                                    .setTitle("Which is the mond stone?").setIcon(R.drawable.mission_batch_apollo_11)
+                                    .show();
                         }
                         if (countMarker == 2) {
-
+                            new AlertDialog.Builder(MapsActivity.this).setMessage("mission 100% completed")
+                                    .setTitle("Congratulations").setIcon(R.drawable.mission_batch_apollo_11)
+                                    .setPositiveButton(android.R.string.ok, null).show();
                         }
                         return true;
                     }
